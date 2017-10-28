@@ -1,0 +1,37 @@
+{
+  "name": "electron-koa-app",
+  "version": "0.0.1",
+  "main": "main.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron . --inspect=3000",
+    "build": "electron-packager . myApp  --overwrite"
+  },
+  "devDependencies": {
+    "electron-packager": "^9.1.0",
+    "eslint": "^4.9.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-config-prettier": "^2.6.0",
+    "eslint-plugin-import": "^2.8.0",
+    "prettier": "^1.7.4"
+  },
+  "eslintConfig": {
+    "root": true,
+    "extends": ["prettier", "airbnb-base"],
+    "env": {
+      "node": true
+    },
+    "settings": {
+      "import/resolver": {
+        "node": {
+          "extensions": [".mjs", ".js"]
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "electron": "^1.7.9",
+    "koa": "^2.3.0",
+    "koa-route": "^3.2.0"
+  }
+}
