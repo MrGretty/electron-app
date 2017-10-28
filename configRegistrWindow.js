@@ -1,9 +1,11 @@
 module.exports = {
-  width: 1200,
-  height: 800,
+  width: 600,
+  height: 400,
   title: 'Jango',
-  backgroundColor: '#66CD00',
+  backgroundColor: '#fff',
   icon: `${__dirname}/src/assets/icon.png`,
   center: true,
   show: false,
+  frame: false,
+  registred: false,
 };
