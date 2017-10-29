@@ -2,8 +2,8 @@ import { EventEmitter } from 'events';
 import firebase from 'firebase';
 
 const db = firebase.initializeApp({
-  apiKey: 'AIzaSyCGSqpNlu4hGocT-6iK0lWJP-TaSVaeJbE',
-  databaseURL: 'https://fir-1fdc2.firebaseio.com/',
+  apiKey: '##',
+  databaseURL: '##',
 });
 
 const groupRef = db
