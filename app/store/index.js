@@ -9,13 +9,13 @@ const db = firebase.initializeApp({
 const groupRef = db
   .database()
   .ref()
-  .child('group');
-// const studentRef = db.child('student');
+  .child('groups');
+
+const studentRef = groupRef.child('student');
 
 const store = new EventEmitter();
 
-let group = {};
-// let student = {};
+let groups = {};
 
 db
   .database()
@@ -25,9 +25,8 @@ db
     snapshot => {
       const apData = snapshot.val();
       if (apData) {
-        group = apData.group;
-        // student = apData.student;
-        store.emit('data-updated', group);
+        groups = apData.groups;
+        store.emit('data-updated', groups);
       }
     },
     err => {
@@ -40,7 +39,22 @@ db
  * without overwriting other child nodes, use the update() method.
  */
 
-store.addGroup = groupName => groupRef.update(groupName);
+store.addGroup = groupName => {
+  groupRef.update({
+    [groupName]: {
+      data: '',
+    },
+  });
+};
+
+store.addStudent = (groupName, studentData) => {
+  console.log(groupRef);
+  groupRef.update({
+    [groupName]: {
+      data: studentData,
+    },
+  });
+};
 
 store.deleteGroup = groupName => {
   groupRef.child(groupName).remove();

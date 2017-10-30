@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <side-bar></side-bar>
+    <side-bar :groups="groups"></side-bar>
   </div>
 </template>
 
@@ -14,12 +14,18 @@ export default {
   },
   data: () => {
     return {
-      group: {},
+      groups: {},
     };
   },
-  method: {
-    updateData(group) {
-      this.group = group;
+
+  created() {
+    store.on('data-updated', this.updateData); // equals to  groups => this.updateData(groups)
+  },
+
+  methods: {
+    updateData(groups) {
+      this.groups = groups;
+      debugger;
     },
     setSelectedGroup(group) {
       this.setSelectedGroup = group;

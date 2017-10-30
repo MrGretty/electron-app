@@ -1,2 +1,2 @@
-# koa-electron-app
+# electron-app
 Desktop application for learning
