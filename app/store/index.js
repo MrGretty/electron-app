@@ -2,16 +2,14 @@ import { EventEmitter } from 'events';
 import firebase from 'firebase';
 
 const db = firebase.initializeApp({
-  apiKey: 'AIzaSyCGSqpNlu4hGocT-6iK0lWJP-TaSVaeJbE',
-  databaseURL: 'https://fir-1fdc2.firebaseio.com/',
+  apiKey: '#',
+  databaseURL: '#',
 });
 
 const groupRef = db
   .database()
   .ref()
   .child('groups');
-
-const studentRef = groupRef.child('student');
 
 const store = new EventEmitter();
 
@@ -47,13 +45,9 @@ store.addGroup = groupName => {
   });
 };
 
+//  studentData - object
 store.addStudent = (groupName, studentData) => {
-  console.log(groupRef);
-  groupRef.update({
-    [groupName]: {
-      data: studentData,
-    },
-  });
+  groupRef.child(groupName).push(studentData);
 };
 
 store.deleteGroup = groupName => {
