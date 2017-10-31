@@ -1,9 +1,12 @@
 import { EventEmitter } from 'events';
 import firebase from 'firebase';
+import { remote } from 'electron';
+
+const myWindow = remote.getCurrentWindow();
 
 const db = firebase.initializeApp({
-  apiKey: '#',
-  databaseURL: '#',
+  apiKey: 'AIzaSyCGSqpNlu4hGocT-6iK0lWJP-TaSVaeJbE',
+  databaseURL: 'https://fir-1fdc2.firebaseio.com/',
 });
 
 const groupRef = db
@@ -12,8 +15,7 @@ const groupRef = db
   .child('groups');
 
 const store = new EventEmitter();
-
-let groups = {};
+const localData = [];
 
 db
   .database()
@@ -23,7 +25,7 @@ db
     snapshot => {
       const apData = snapshot.val();
       if (apData) {
-        groups = apData.groups;
+        const { groups } = apData;
         store.emit('data-updated', groups);
       }
     },
@@ -52,6 +54,28 @@ store.addStudent = (groupName, studentData) => {
 
 store.deleteGroup = groupName => {
   groupRef.child(groupName).remove();
+};
+
+store.collectLocalGroupData = data => {
+  localData.push(data);
+};
+
+store.changeNameGroups = () => {
+  let cloneData = {};
+  localData.forEach(el => {
+    groupRef.child(...Object.keys(el)).on('value', snapshot => {
+      cloneData = snapshot.val();
+    });
+    groupRef.child(...Object.values(el)).set(cloneData);
+    groupRef.child(...Object.keys(el)).remove();
+  });
+};
+store.max = () =>
+  myWindow.isMaximized() ? myWindow.unmaximize() : myWindow.maximize();
+store.min = () => myWindow.minimize();
+store.exit = () => {
+  store.changeNameGroups();
+  myWindow.close();
 };
 
 export default store;

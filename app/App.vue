@@ -1,18 +1,25 @@
 <template>
   <div id="app">
-    <side-bar :groups="groups"
+    <header-app v-on:close="exit" v-on:max="maxSize" v-on:min="minSize"></header-app>
+    <group-side-bar :groups="groups"
               v-on:group-selected="setSelectedGroup"
-      ></side-bar>
+      ></group-side-bar>
+      <student-wrapper-list :selected="selectedGroup" v-on:change-processed="changeNameGroup">
+      </student-wrapper-list>
   </div>
 </template>
 
 <script>
 import store from './store';
-import SideBar from './components/SideBar.vue';
+import GroupSideBar from './components/GroupSideBar.vue';
+import StudentWrapperList from './components/StudentWrapperList.vue';
+import HeaderApp from './components/HeaderApp.vue';
 
 export default {
   components: {
-    SideBar,
+    GroupSideBar,
+    StudentWrapperList,
+    HeaderApp,
   },
   data: () => {
     return {
@@ -30,7 +37,20 @@ export default {
       this.groups = groups;
     },
     setSelectedGroup(group) {
+      console.log(group);
       this.selectedGroup = group;
+    },
+    changeNameGroup(el) {
+      store.collectLocalGroupData(el);
+    },
+    exit() {
+      store.exit();
+    },
+    maxSize() {
+      store.max();
+    },
+    minSize() {
+      store.min();
     },
   },
 };

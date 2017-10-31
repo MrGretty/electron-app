@@ -49,6 +49,10 @@ export default {
     addGroup() {
       if (this.isValid) {
         store.addGroup(this.groupName);
+        store.addStudent(this.groupName, {
+          name: 1,
+          surname: 2,
+        });
         this.groupName = '';
         this.$emit('close');
       }

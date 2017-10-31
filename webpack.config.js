@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   entry: './app/main.js',
@@ -11,6 +12,7 @@ module.exports = {
       vue$: 'vue/dist/vue.common.js',
     },
   },
+  plugins: [new webpack.ExternalsPlugin('commonjs', ['electron'])],
   module: {
     rules: [
       {

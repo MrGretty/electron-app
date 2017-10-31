@@ -5,4 +5,6 @@ module.exports = {
   icon: `${__dirname}/src/assets/icon.png`,
   center: true,
   show: false,
+  transparent: false,
+  frame: false,
 };
