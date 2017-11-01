@@ -1,12 +1,16 @@
 <template>
   <div id="group-toolbar">
-      <div v-show="!clicked"  @dblclick="editGroup(finishEdit)">{{finishEdit}}</div>
-      <input v-show="clicked" type="text" class="edit" v-model="edited"
-      v-group-focus="edited"
-      ref="group-tollbar"
-      @blur="doneEdit(edited)"
-      @keyup.enter="doneEdit(edited)"
-      @keyup.esc="cancelEdit()">
+      <div id="wrapper-toolbar-group">
+        <h1  v-show="!clicked"  @dblclick="editGroup(finishEdit)">{{finishEdit}}</h1>
+        <input  v-show="clicked" type="text" class="edit tasksToolbar" v-model="edited" 
+               v-group-focus="edited"
+               ref="group-tollbar"
+               @blur="doneEdit(edited)"
+               @keyup.enter="doneEdit(edited)"
+               @keyup.esc="cancelEdit()">
+      </div>
+
+
   </div>
 </template>
 
@@ -38,7 +42,9 @@ export default {
       this.edited = null;
       this.finishEdit = name.trim();
       this.clicked = false;
-      this.$emit('changed-find', { [this.show]: this.finishEdit });
+      if (this.finishEdit !== this.show) {
+        this.$emit('changed-find', { [this.show]: this.finishEdit });
+      }
     },
     cancelEdit() {
       this.edited = null;

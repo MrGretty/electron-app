@@ -1,10 +1,13 @@
 <template>
   <div id="app">
     <header-app v-on:close="exit" v-on:max="maxSize" v-on:min="minSize"></header-app>
-    <group-side-bar :groups="groups"
+    <group-side-bar :groups="groups" 
               v-on:group-selected="setSelectedGroup"
+              :countStudent="countStudent"
       ></group-side-bar>
-      <student-wrapper-list :selected="selectedGroup" v-on:change-processed="changeNameGroup">
+      <student-wrapper-list :selected="selectedGroup" 
+      v-on:change-processed="changeNameGroup"
+      :studentsList="studentsList">
       </student-wrapper-list>
   </div>
 </template>
@@ -25,23 +28,32 @@ export default {
     return {
       groups: {},
       selectedGroup: '',
+      changedNameGroup: '',
+      studentsList: '',
+      countStudent: [],
     };
   },
 
   created() {
+    // console.log('Created=', this.groups);
     store.on('data-updated', this.updateData); // equals to  groups => this.updateData(groups)
   },
 
   methods: {
     updateData(groups) {
+      console.log('updated');
+      Object.values(groups).forEach(group => {
+        this.countStudent.push(Object.keys(group).length);
+      });
       this.groups = groups;
     },
     setSelectedGroup(group) {
-      console.log(group);
       this.selectedGroup = group;
+      this.studentsList = store.getChildData(group);
     },
     changeNameGroup(el) {
-      store.collectLocalGroupData(el);
+      store.changeNameGroupsOnServer(el);
+      this.setSelectedGroup(...Object.values(el));
     },
     exit() {
       store.exit();

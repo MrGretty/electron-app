@@ -1,25 +1,24 @@
 <template>
   <div id="main">
-      <group-toolbar :show="selected" v-on:changed-find="changeMove"></group-toolbar>
-      <student-list></student-list>
+      <student-list-toolbar :show="selected" v-on:changed-find="changeMove"></student-list-toolbar>
+      <student-list :list="studentsList"></student-list>
   </div>
 </template>
 
 <script>
-import GroupToolbar from './GroupToolbar.vue';
+import StudentListToolbar from './StudentListToolbar.vue';
 import StudentList from './StudentList.vue';
 
 export default {
   components: {
-    GroupToolbar,
     StudentList,
+    StudentListToolbar,
   },
 
-  props: ['groups', 'selected'],
+  props: ['groups', 'selected', 'studentsList'],
 
   methods: {
     changeMove(el) {
-      console.log(el);
       this.$emit('change-processed', el);
     },
   },

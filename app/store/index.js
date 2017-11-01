@@ -5,8 +5,8 @@ import { remote } from 'electron';
 const myWindow = remote.getCurrentWindow();
 
 const db = firebase.initializeApp({
-  apiKey: 'AIzaSyCGSqpNlu4hGocT-6iK0lWJP-TaSVaeJbE',
-  databaseURL: 'https://fir-1fdc2.firebaseio.com/',
+  apiKey: '#',
+  databaseURL: '#',
 });
 
 const groupRef = db
@@ -42,13 +42,17 @@ db
 store.addGroup = groupName => {
   groupRef.update({
     [groupName]: {
-      data: '',
+      data: 'Нет данных',
     },
   });
 };
 
 //  studentData - object
 store.addStudent = (groupName, studentData) => {
+  groupRef
+    .child(groupName)
+    .child('data')
+    .remove();
   groupRef.child(groupName).push(studentData);
 };
 
@@ -60,21 +64,27 @@ store.collectLocalGroupData = data => {
   localData.push(data);
 };
 
-store.changeNameGroups = () => {
+store.changeNameGroupsOnServer = newData => {
   let cloneData = {};
-  localData.forEach(el => {
-    groupRef.child(...Object.keys(el)).on('value', snapshot => {
-      cloneData = snapshot.val();
-    });
-    groupRef.child(...Object.values(el)).set(cloneData);
-    groupRef.child(...Object.keys(el)).remove();
+  groupRef.child(...Object.keys(newData)).on('value', snapshot => {
+    cloneData = snapshot.val();
   });
+  groupRef.child(...Object.values(newData)).set(cloneData);
+  groupRef.child(...Object.keys(newData)).remove();
 };
+
+store.getChildData = groupName => {
+  let childData = {};
+  groupRef.child(groupName).on('value', snapshot => {
+    childData = snapshot.val();
+  });
+  return childData;
+};
+
 store.max = () =>
   myWindow.isMaximized() ? myWindow.unmaximize() : myWindow.maximize();
 store.min = () => myWindow.minimize();
 store.exit = () => {
-  store.changeNameGroups();
   myWindow.close();
 };
 

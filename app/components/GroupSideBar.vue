@@ -17,7 +17,7 @@
                   </i>
                 </span>
                <span class="listItem-title">{{nameGroup}}</span>
-               <span class="listItem-count">0</span>
+               <span class="listItem-count">{{countStudent[index]}}</span>
             </div>
           </li>
         </div>
@@ -46,7 +46,7 @@ export default {
     GroupModal,
   },
 
-  props: ['groups'],
+  props: ['groups', 'countStudent'],
 
   methods: {
     groupSelected(group) {

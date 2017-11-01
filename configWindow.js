@@ -1,6 +1,6 @@
 module.exports = {
-  width: 1200,
-  height: 800,
+  width: 1000,
+  height: 600,
   title: 'Jango',
   icon: `${__dirname}/src/assets/icon.png`,
   center: true,

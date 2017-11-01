@@ -7544,12 +7544,13 @@ db.database().ref().on('value', function (snapshot) {
 
 store.addGroup = function (groupName) {
   groupRef.update((0, _defineProperty3.default)({}, groupName, {
-    data: ''
+    data: 'Нет данных'
   }));
 };
 
 //  studentData - object
 store.addStudent = function (groupName, studentData) {
+  groupRef.child(groupName).child('data').remove();
   groupRef.child(groupName).push(studentData);
 };
 
@@ -7561,25 +7562,30 @@ store.collectLocalGroupData = function (data) {
   localData.push(data);
 };
 
-store.changeNameGroups = function () {
+store.changeNameGroupsOnServer = function (newData) {
   var cloneData = {};
-  localData.forEach(function (el) {
-    groupRef.child.apply(groupRef, (0, _toConsumableArray3.default)((0, _keys2.default)(el))).on('value', function (snapshot) {
-      cloneData = snapshot.val();
-    });
-    groupRef.child.apply(groupRef, (0, _toConsumableArray3.default)((0, _values2.default)(el))).set(cloneData);
-    groupRef.child.apply(groupRef, (0, _toConsumableArray3.default)((0, _keys2.default)(el))).remove();
+  groupRef.child.apply(groupRef, (0, _toConsumableArray3.default)((0, _keys2.default)(newData))).on('value', function (snapshot) {
+    cloneData = snapshot.val();
   });
+  groupRef.child.apply(groupRef, (0, _toConsumableArray3.default)((0, _values2.default)(newData))).set(cloneData);
+  groupRef.child.apply(groupRef, (0, _toConsumableArray3.default)((0, _keys2.default)(newData))).remove();
 };
+
+store.getChildData = function (groupName) {
+  var childData = {};
+  groupRef.child(groupName).on('value', function (snapshot) {
+    childData = snapshot.val();
+  });
+  return childData;
+};
+
 store.max = function () {
-  myWindow.isMaximized() ? myWindow.unmaximize() : myWindow.maximize();
-  console.log(myWindow.isMaximized());
+  return myWindow.isMaximized() ? myWindow.unmaximize() : myWindow.maximize();
 };
 store.min = function () {
   return myWindow.minimize();
 };
 store.exit = function () {
-  store.changeNameGroups();
   myWindow.close();
 };
 
@@ -25500,6 +25506,9 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
 
 
 
@@ -25515,24 +25524,33 @@ if (false) {(function () {
   data: () => {
     return {
       groups: {},
-      selectedGroup: ''
+      selectedGroup: '',
+      changedNameGroup: '',
+      studentsList: '',
+      countStudent: []
     };
   },
 
   created() {
+    // console.log('Created=', this.groups);
     __WEBPACK_IMPORTED_MODULE_0__store___default.a.on('data-updated', this.updateData); // equals to  groups => this.updateData(groups)
   },
 
   methods: {
     updateData(groups) {
+      console.log('updated');
+      Object.values(groups).forEach(group => {
+        this.countStudent.push(Object.keys(group).length);
+      });
       this.groups = groups;
     },
     setSelectedGroup(group) {
-      console.log(group);
       this.selectedGroup = group;
+      this.studentsList = __WEBPACK_IMPORTED_MODULE_0__store___default.a.getChildData(group);
     },
     changeNameGroup(el) {
-      __WEBPACK_IMPORTED_MODULE_0__store___default.a.collectLocalGroupData(el);
+      __WEBPACK_IMPORTED_MODULE_0__store___default.a.changeNameGroupsOnServer(el);
+      this.setSelectedGroup(...Object.values(el));
     },
     exit() {
       __WEBPACK_IMPORTED_MODULE_0__store___default.a.exit();
@@ -38727,7 +38745,7 @@ if (false) {(function () {
     GroupModal: __WEBPACK_IMPORTED_MODULE_0__GroupModal_vue__["a" /* default */]
   },
 
-  props: ['groups'],
+  props: ['groups', 'countStudent'],
 
   methods: {
     groupSelected(group) {
@@ -38850,9 +38868,16 @@ if (false) {(function () {
       if (this.isValid) {
         __WEBPACK_IMPORTED_MODULE_0__store___default.a.addGroup(this.groupName);
         __WEBPACK_IMPORTED_MODULE_0__store___default.a.addStudent(this.groupName, {
-          name: 1,
-          surname: 2
+          surname: 'Труфанов',
+          name: 'Руслан',
+          patronimyc: 'Евгеньевич'
         });
+        __WEBPACK_IMPORTED_MODULE_0__store___default.a.addStudent(this.groupName, {
+          surname: 'Trufanov',
+          name: 'Evgen',
+          patronimyc: 'Victorovich'
+        });
+
         this.groupName = '';
         this.$emit('close');
       }
@@ -39037,7 +39062,7 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("span", { staticClass: "listItem-count" }, [
-                        _vm._v("0")
+                        _vm._v(_vm._s(_vm.countStudent[index]))
                       ])
                     ])
                   ]
@@ -39142,7 +39167,7 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__GroupToolbar_vue__ = __webpack_require__(244);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__StudentListToolbar_vue__ = __webpack_require__(244);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__StudentList_vue__ = __webpack_require__(247);
 //
 //
@@ -39157,15 +39182,14 @@ if (false) {(function () {
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   components: {
-    GroupToolbar: __WEBPACK_IMPORTED_MODULE_0__GroupToolbar_vue__["a" /* default */],
-    StudentList: __WEBPACK_IMPORTED_MODULE_1__StudentList_vue__["a" /* default */]
+    StudentList: __WEBPACK_IMPORTED_MODULE_1__StudentList_vue__["a" /* default */],
+    StudentListToolbar: __WEBPACK_IMPORTED_MODULE_0__StudentListToolbar_vue__["a" /* default */]
   },
 
-  props: ['groups', 'selected'],
+  props: ['groups', 'selected', 'studentsList'],
 
   methods: {
     changeMove(el) {
-      console.log(el);
       this.$emit('change-processed', el);
     }
   }
@@ -39176,8 +39200,8 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_GroupToolbar_vue__ = __webpack_require__(245);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_b816f4e8_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_GroupToolbar_vue__ = __webpack_require__(246);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_StudentListToolbar_vue__ = __webpack_require__(245);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_21f51052_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_StudentListToolbar_vue__ = __webpack_require__(246);
 var disposed = false
 var normalizeComponent = __webpack_require__(9)
 /* script */
@@ -39193,14 +39217,14 @@ var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 var Component = normalizeComponent(
-  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_GroupToolbar_vue__["a" /* default */],
-  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_b816f4e8_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_GroupToolbar_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_bustCache_StudentListToolbar_vue__["a" /* default */],
+  __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_21f51052_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_bustCache_StudentListToolbar_vue__["a" /* default */],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "app\\components\\GroupToolbar.vue"
+Component.options.__file = "app\\components\\StudentListToolbar.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
 
 /* hot reload */
@@ -39210,9 +39234,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-b816f4e8", Component.options)
+    hotAPI.createRecord("data-v-21f51052", Component.options)
   } else {
-    hotAPI.reload("data-v-b816f4e8", Component.options)
+    hotAPI.reload("data-v-21f51052", Component.options)
 ' + '  }
   module.hot.dispose(function (data) {
     disposed = true
@@ -39227,6 +39251,10 @@ if (false) {(function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+//
+//
+//
+//
 //
 //
 //
@@ -39267,7 +39295,9 @@ if (false) {(function () {
       this.edited = null;
       this.finishEdit = name.trim();
       this.clicked = false;
-      this.$emit('changed-find', { [this.show]: this.finishEdit });
+      if (this.finishEdit !== this.show) {
+        this.$emit('changed-find', { [this.show]: this.finishEdit });
+      }
     },
     cancelEdit() {
       this.edited = null;
@@ -39294,83 +39324,85 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { attrs: { id: "group-toolbar" } }, [
-    _c(
-      "div",
-      {
+    _c("div", { attrs: { id: "wrapper-toolbar-group" } }, [
+      _c(
+        "h1",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: !_vm.clicked,
+              expression: "!clicked"
+            }
+          ],
+          on: {
+            dblclick: function($event) {
+              _vm.editGroup(_vm.finishEdit)
+            }
+          }
+        },
+        [_vm._v(_vm._s(_vm.finishEdit))]
+      ),
+      _vm._v(" "),
+      _c("input", {
         directives: [
           {
             name: "show",
             rawName: "v-show",
-            value: !_vm.clicked,
-            expression: "!clicked"
+            value: _vm.clicked,
+            expression: "clicked"
+          },
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.edited,
+            expression: "edited"
+          },
+          {
+            name: "group-focus",
+            rawName: "v-group-focus",
+            value: _vm.edited,
+            expression: "edited"
           }
         ],
+        ref: "group-tollbar",
+        staticClass: "edit tasksToolbar",
+        attrs: { type: "text" },
+        domProps: { value: _vm.edited },
         on: {
-          dblclick: function($event) {
-            _vm.editGroup(_vm.finishEdit)
-          }
-        }
-      },
-      [_vm._v(_vm._s(_vm.finishEdit))]
-    ),
-    _vm._v(" "),
-    _c("input", {
-      directives: [
-        {
-          name: "show",
-          rawName: "v-show",
-          value: _vm.clicked,
-          expression: "clicked"
-        },
-        {
-          name: "model",
-          rawName: "v-model",
-          value: _vm.edited,
-          expression: "edited"
-        },
-        {
-          name: "group-focus",
-          rawName: "v-group-focus",
-          value: _vm.edited,
-          expression: "edited"
-        }
-      ],
-      ref: "group-tollbar",
-      staticClass: "edit",
-      attrs: { type: "text" },
-      domProps: { value: _vm.edited },
-      on: {
-        blur: function($event) {
-          _vm.doneEdit(_vm.edited)
-        },
-        keyup: [
-          function($event) {
-            if (
-              !("button" in $event) &&
-              _vm._k($event.keyCode, "enter", 13, $event.key)
-            ) {
-              return null
-            }
+          blur: function($event) {
             _vm.doneEdit(_vm.edited)
           },
-          function($event) {
-            if (
-              !("button" in $event) &&
-              _vm._k($event.keyCode, "esc", 27, $event.key)
-            ) {
-              return null
+          keyup: [
+            function($event) {
+              if (
+                !("button" in $event) &&
+                _vm._k($event.keyCode, "enter", 13, $event.key)
+              ) {
+                return null
+              }
+              _vm.doneEdit(_vm.edited)
+            },
+            function($event) {
+              if (
+                !("button" in $event) &&
+                _vm._k($event.keyCode, "esc", 27, $event.key)
+              ) {
+                return null
+              }
+              _vm.cancelEdit()
             }
-            _vm.cancelEdit()
+          ],
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.edited = $event.target.value
           }
-        ],
-        input: function($event) {
-          if ($event.target.composing) {
-            return
-          }
-          _vm.edited = $event.target.value
         }
-      }
-    })
+      })
+    ])
   ])
 }
 var staticRenderFns = []
@@ -39380,7 +39412,7 @@ var esExports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-b816f4e8", esExports)
+    require("vue-hot-reload-api")      .rerender("data-v-21f51052", esExports)
   }
 }
 
@@ -39446,8 +39478,19 @@ if (false) {(function () {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-/* harmony default export */ __webpack_exports__["a"] = ({});
+/* harmony default export */ __webpack_exports__["a"] = ({
+  props: ['list']
+});
 
 /***/ }),
 /* 249 */
@@ -39458,7 +39501,30 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { attrs: { id: "main-students" } })
+  return _c(
+    "div",
+    { attrs: { id: "main-students" } },
+    _vm._l(_vm.list, function(student, key, index) {
+      return _c("div", { key: key, staticClass: "studetn-list-inner" }, [
+        _c("li", { staticClass: "student-info-wrapper" }, [
+          _c(
+            "div",
+            { staticClass: "student-info" },
+            [
+              _c("span", [_vm._v(_vm._s(index + 1))]),
+              _vm._v(" "),
+              _vm._l(student, function(info) {
+                return _c("span", { key: info.name }, [
+                  _vm._v("\n         " + _vm._s(info) + "\n        ")
+                ])
+              })
+            ],
+            2
+          )
+        ])
+      ])
+    })
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -39484,12 +39550,12 @@ var render = function() {
     "div",
     { attrs: { id: "main" } },
     [
-      _c("group-toolbar", {
+      _c("student-list-toolbar", {
         attrs: { show: _vm.selected },
         on: { "changed-find": _vm.changeMove }
       }),
       _vm._v(" "),
-      _c("student-list")
+      _c("student-list", { attrs: { list: _vm.studentsList } })
     ],
     1
   )
@@ -39646,12 +39712,12 @@ var render = function() {
       }),
       _vm._v(" "),
       _c("group-side-bar", {
-        attrs: { groups: _vm.groups },
+        attrs: { groups: _vm.groups, countStudent: _vm.countStudent },
         on: { "group-selected": _vm.setSelectedGroup }
       }),
       _vm._v(" "),
       _c("student-wrapper-list", {
-        attrs: { selected: _vm.selectedGroup },
+        attrs: { selected: _vm.selectedGroup, studentsList: _vm.studentsList },
         on: { "change-processed": _vm.changeNameGroup }
       })
     ],
