@@ -18,13 +18,6 @@
               </button>
           </div>
       </div>
-      <div class="wrapper-students-results">
-         <div v-for="(student,key,index) in list"  :key="key" class="student-list-inner">
-         <div class="results">100</div>
-         <div class="results">200</div>
-         <div class="results">98|A</div>
-         </div>
-      </div>
     </div>
        <student-modal v-if="opened" @close="opened = false"></student-modal>
   </div>

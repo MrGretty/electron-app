@@ -49,7 +49,7 @@
         </div>
         <span>My Day</span>
       </div>
-    <div class="sidebar-content">
+    <div class="sidebar-content overScroll" >
       <ul  class="lists">
         <div v-for = "(data,nameGroup,index) in groups" :key="data[nameGroup]"class="wrapper-list" >
           <li class="listItem" @click="groupSelected(nameGroup)":class="{selected: selectedGroup === nameGroup}">

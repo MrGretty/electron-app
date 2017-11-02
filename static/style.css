@@ -53,9 +53,8 @@ body i {
 }
 
 #groups {
-  width: 280px;
+  flex: 1;
   position: relative;
-  background: #fff;
   display: -webkit-box;
   display: -moz-box;
   display: -webkit-flex;
@@ -93,7 +92,7 @@ body i {
   -ms-flex-direction: row;
   flex-direction: row;
   overflow: visible;
-  background: #fbf0d9;
+  /* background: #fbf0d9; */
   overflow: hidden;
   border-bottom: 3px solid #3e69e4;
   border-right: 3px solid #3e69e4;
@@ -356,7 +355,9 @@ body i {
 }
 #main-students {
   border-left: 1px solid #ededed;
+  border-right: 1px solid #ededed;
   position: relative;
+  background: rgba(221, 221, 221, 0.27);
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   -o-box-flex: 1;
@@ -374,7 +375,19 @@ body i {
   -moz-box-orient: vertical;
   -o-box-orient: vertical;
 }
-
+.modal-header {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 15px;
+}
+.modal-header span {
+  font-weight: 700;
+  font-size: 22px;
+}
+.errors li {
+  list-style: none;
+  color: red;
+}
 .studetn-list-inner {
   overflow: hidden;
   display: -webkit-flex;
@@ -402,9 +415,14 @@ body i {
 }
 .wrapper-initials {
   display: flex;
-  flex: 0.7;
+  flex: 1;
   flex-direction: column;
   position: relative;
+}
+.middle {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 .wrapper-students-results {
   display: flex;
@@ -493,10 +511,11 @@ body i {
   margin: 0px auto;
   padding: 20px 30px;
   background-color: #fff;
-  border-radius: 2px;
+  border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
   font-family: Helvetica, Arial, sans-serif;
+  position: relative;
 }
 
 .modal-header h3 {
@@ -575,6 +594,7 @@ body i {
   min-height: 40px;
   border: none;
   border-radius: 5px;
+  width: 100%;
 }
 html[dir='ltr'] .tasksToolbar {
   border-left: 1px solid rgba(0, 0, 0, 0.1);
@@ -601,4 +621,74 @@ html[dir='rtl'] .tasksToolbar {
   width: 70px;
   height: 74px;
   padding-left: 15px;
+}
+
+#left,
+#right {
+  display: flex;
+  flex: 0.3;
+  background: #fff;
+}
+
+#middle {
+  display: flex;
+  flex: 0.4;
+}
+.default-modal-close {
+  height: 30px;
+  width: 30px;
+  cursor: pointer;
+  right: 15px;
+  position: absolute;
+  top: 10px;
+}
+
+.modal-body input[type='text'] {
+  margin: 0;
+  outline: 0;
+  -webkit-appearance: none;
+  tap-highlight-color: rgba(255, 255, 255, 0);
+  line-height: 1.2142em;
+  padding: 0.67861429em 1em;
+  font-size: 1em;
+  background: #fff;
+  border: 1px solid rgba(34, 36, 38, 0.15);
+  color: rgba(0, 0, 0, 0.87);
+  border-radius: 0.28571429rem;
+  box-shadow: 0 0 0 0 transparent inset;
+  -webkit-transition: color 0.1s ease, border-color 0.1s ease;
+  transition: color 0.1s ease, border-color 0.1s ease;
+  display: flex;
+  flex: 0.95;
+}
+#form {
+  display: flex;
+  justify-content: space-between;
+}
+.submit {
+  display: flex;
+  cursor: pointer;
+}
+
+.overScroll::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #f5f5f5;
+  border-radius: 10px;
+}
+
+.overScroll::-webkit-scrollbar {
+  width: 3px;
+  background-color: #f5f5f5;
+}
+
+.overScroll::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-image: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    color-stop(0.44, rgb(122, 153, 217)),
+    color-stop(0.72, rgb(73, 125, 189)),
+    color-stop(0.86, rgb(28, 58, 148))
+  );
 }

@@ -1,14 +1,23 @@
 <template>
   <div id="app">
     <header-app v-on:close="exit" v-on:max="maxSize" v-on:min="minSize"></header-app>
-    <group-side-bar :groups="groups" 
-              v-on:group-selected="setSelectedGroup"
-              :countStudent="countStudent"
-      ></group-side-bar>
-      <student-wrapper-list :selected="selectedGroup" 
-      v-on:change-processed="changeNameGroup"
-      :studentsList="studentsList">
-      </student-wrapper-list>
+    <div id="left">
+      <group-side-bar :groups="groups" 
+                v-on:group-selected="setSelectedGroup"
+                :countStudent="countStudent"
+        ></group-side-bar>
+      </div>
+      <div id="middle">
+        <student-wrapper-list :selected="selectedGroup" 
+        v-on:change-processed="changeNameGroup"
+        :studentsList="studentsList">
+        </student-wrapper-list>
+      </div>
+      <div id="right">
+          <student-wrapper-result>
+
+          </student-wrapper-result>
+        </div>
   </div>
 </template>
 
@@ -17,12 +26,14 @@ import store from './store';
 import GroupSideBar from './components/GroupSideBar.vue';
 import StudentWrapperList from './components/StudentWrapperList.vue';
 import HeaderApp from './components/HeaderApp.vue';
+import StudentWrapperResult from './components/StudentWrapperResult.vue';
 
 export default {
   components: {
     GroupSideBar,
     StudentWrapperList,
     HeaderApp,
+    StudentWrapperResult,
   },
   data: () => {
     return {

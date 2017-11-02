@@ -1,7 +1,9 @@
 <template>
   <div id="main">
+    <div class="middle">
       <student-list-toolbar :show="selected" v-on:changed-find="changeMove"></student-list-toolbar>
       <student-list :list="studentsList"></student-list>
+     </div>
   </div>
 </template>
 
