@@ -1,20 +1,47 @@
 <template>
   <div id="main-students">
-    <div v-for="(student,key,index) in list"  :key="key" class="studetn-list-inner">
-      <li class="student-info-wrapper">
-        <div class="student-info">
-          <span>{{index+1}}</span>
-          <span v-for ="info in student" :key="info.name">
-           {{info}}
-          </span>
+    <div class="wrapper-students">
+      <div class="wrapper-initials">
+        <div v-for="(student,key,index) in list"  :key="key" class="student-list-inner">
+          <li class="student-info-wrapper">
+            <div class="student-info">
+              <span>{{index+1}}</span>
+              <span v-for ="info in student" :key="info.name">
+              {{info}}
+              </span>
+            </div>
+          </li>
         </div>
-      </li>
+        <div class="studentList-addStudent">
+              <button @click = "opened = true">
+                <span>+</span>
+              </button>
+          </div>
+      </div>
+      <div class="wrapper-students-results">
+         <div v-for="(student,key,index) in list"  :key="key" class="student-list-inner">
+         <div class="results">100</div>
+         <div class="results">200</div>
+         <div class="results">98|A</div>
+         </div>
+      </div>
     </div>
+       <student-modal v-if="opened" @close="opened = false"></student-modal>
   </div>
 </template>
 
 <script>
+import StudentModal from './StudentModal.vue';
+
 export default {
+  data: () => {
+    return {
+      opened: false,
+    };
+  },
+  components: {
+    StudentModal,
+  },
   props: ['list'],
 };
 </script>

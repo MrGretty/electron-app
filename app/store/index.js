@@ -5,8 +5,8 @@ import { remote } from 'electron';
 const myWindow = remote.getCurrentWindow();
 
 const db = firebase.initializeApp({
-  apiKey: '#',
-  databaseURL: '#',
+  apiKey: 'AIzaSyCGSqpNlu4hGocT-6iK0lWJP-TaSVaeJbE',
+  databaseURL: 'https://fir-1fdc2.firebaseio.com/',
 });
 
 const groupRef = db

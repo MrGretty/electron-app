@@ -49,6 +49,16 @@ export default {
     addGroup() {
       if (this.isValid) {
         store.addGroup(this.groupName);
+        store.addStudent(this.groupName, {
+          surname: 'Труфанов',
+          name: 'Руслан',
+          patronimyc: 'Евгеньевич',
+        });
+        store.addStudent(this.groupName, {
+          surname: 'Trufanov',
+          name: 'Evgen',
+          patronimyc: 'Victorovich',
+        });
 
         this.groupName = '';
         this.$emit('close');

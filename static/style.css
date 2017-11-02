@@ -182,6 +182,7 @@ body i {
   background-position: 50%;
   background-blend-mode: luminosity;
   background-color: #3fa8e6;
+  box-shadow: 0 1px 3px rgb(1, 106, 168);
 }
 #wrapper-toolbar-group {
   color: white;
@@ -257,12 +258,71 @@ body i {
   flex: 1;
   margin: 0 8px;
 }
+.sidebar-header {
+  display: flex;
+  min-height: 60px;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(1, 106, 168);
+  letter-spacing: 4px;
+}
+.sidebar-header span {
+  text-transform: uppercase;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+  color: white;
+}
 .listItem .listItem-count {
   color: #0c7f0c;
   font-size: 13px;
   padding: 0 8px;
 }
-.listItem.selected {
+.sidebar-addGroup,
+.studentList-addStudent {
+  position: absolute;
+  right: 20px;
+  bottom: 15px;
+  transition: all 0.3s ease;
+}
+
+.sidebar-addGroup button {
+  height: 40px;
+  width: 40px;
+}
+#main-students .studentList-addStudent button {
+  height: 50px;
+  width: 50px;
+  border-radius: 0;
+}
+.sidebar-addGroup button,
+.studentList-addStudent button {
+  background-color: transparent;
+  color: rgb(152, 0, 119);
+  box-shadow: 0 0 0 2px rgb(152, 0, 119) inset;
+  border-radius: 10em;
+  border: none;
+  cursor: pointer;
+}
+.sidebar-addGroup button span,
+.studentList-addStudent button span {
+  font-size: 2.5em;
+  padding: 9px;
+  font-weight: 700;
+}
+
+.sidebar-addGroup:active,
+.sidebar-addGroup button:active,
+.sidebar-addGroup:focus,
+.sidebar-addGroup button:focus {
+  border: none;
+  outline: none;
+}
+.sidebar-addGroup button:hover,
+.studentList-addStudent button:hover {
+  box-shadow: 0 0 0 2px rgb(32, 29, 195) inset;
+  color: rgb(32, 29, 195);
+}
+.selected {
   background: #ededed;
 }
 .listItem .listItem-icon {
@@ -339,6 +399,48 @@ body i {
   display: flex;
   flex: 1;
   justify-content: space-around;
+}
+.wrapper-initials {
+  display: flex;
+  flex: 0.7;
+  flex-direction: column;
+  position: relative;
+}
+.wrapper-students-results {
+  display: flex;
+  flex: 0.3;
+  flex-direction: column;
+
+  -webkit-box-shadow: -2px 0px 0px 0px rgb(152, 0, 119);
+  -moz-box-shadow: -2px 0px 0px 0px rgb(152, 0, 119);
+  box-shadow: -2px 0px 0px 0px rgb(152, 0, 119);
+}
+.wrapper-students-results .student-list-inner div {
+  display: flex;
+  min-height: 52px;
+  flex: 0.3;
+  justify-content: center;
+  align-items: center;
+}
+.wrapper-students-results .student-list-inner {
+  min-height: 52px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  -webkit-box-shadow: 0 17px 0 -16px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 17px 0 -16px rgba(0, 0, 0, 0.1);
+}
+.wrapper-student-result .results {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.wrapper-students {
+  display: flex;
+  height: 100%;
 }
 .student-info {
   font-size: 15px;
@@ -479,4 +581,24 @@ html[dir='ltr'] .tasksToolbar {
 }
 html[dir='rtl'] .tasksToolbar {
   border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+.sidebar-myDay {
+  min-height: 89px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 1px 3px rgb(1, 106, 168);
+  justify-content: space-between;
+}
+.sidebar-myDay .sun + span {
+  padding-right: 25%;
+}
+.student-info-wrapper:hover {
+  background-color: wheat;
+  cursor: pointer;
+}
+.sun {
+  width: 70px;
+  height: 74px;
+  padding-left: 15px;
 }

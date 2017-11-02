@@ -1,5 +1,7 @@
 <template>
   <div id="title-bar">
+    <div id="logo">
+    </div>
     <div id="title-bar-btns">
       <div id="min-btn" @click="minSize">
         <i class="material-icons">remove</i>
