@@ -73,7 +73,7 @@ store.changeNameGroupsOnServer = newData => {
   groupRef.child(...Object.keys(newData)).remove();
 };
 
-store.getChildData = groupName => {
+store.getChildsData = groupName => {
   let childData = {};
   groupRef.child(groupName).on('value', snapshot => {
     childData = snapshot.val();

@@ -21,6 +21,10 @@
                 <button class="modal-default-button" @click="$emit('close')">
                   OK
                 </button>
+
+                 <button class="modal-default-button" @click="addStudentToGroup()">
+                  OK
+                </button>
               </slot>
             </div>
           </div>
@@ -31,5 +35,22 @@
 </template>
 
 <script>
-export default {};
+import store from '../store';
+export default {
+  data: () => {
+    return {
+      name: 's',
+      surname: 'd',
+      patronimyc: 'w',
+    };
+  },
+  props: ['nameGroup', 'updateChildData'],
+  methods: {
+    addStudentToGroup() {
+      store.addStudent(this.nameGroup, this.$data);
+      this.$emit('update-Child-Data', this.nameGroup);
+      this.$emit('close');
+    },
+  },
+};
 </script>

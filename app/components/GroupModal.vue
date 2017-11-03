@@ -21,7 +21,7 @@
             </div>
             <div class="modal-body">
                 <form id="form">
-                  <input type="text" v-model="groupName" placeholder="enter thr group name...">
+                  <input type="text" v-model="groupName" placeholder="enter the group name...">
                   <div class="submit" @click="addGroup">
                       <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                         width="42px" height="42px"    viewBox="0 0 438.536 438.536" style="enable-background:new 0 0 438.536 438.536; fill: #308e09"
@@ -46,7 +46,6 @@
           </div>
         </div>
       </div>
-
     </transition>
 </template>
 
@@ -69,17 +68,6 @@ export default {
     addGroup() {
       if (this.isValid) {
         store.addGroup(this.groupName);
-        // store.addStudent(this.groupName, {
-        //   surname: 'Труфанов',
-        //   name: 'Руслан',
-        //   patronimyc: 'Евгеньевич',
-        // });
-        // store.addStudent(this.groupName, {
-        //   surname: 'Trufanov',
-        //   name: 'Evgen',
-        //   patronimyc: 'Victorovich',
-        // });
-
         this.groupName = '';
         this.$emit('close');
       }

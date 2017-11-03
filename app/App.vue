@@ -10,7 +10,8 @@
       <div id="middle">
         <student-wrapper-list :selected="selectedGroup" 
         v-on:change-processed="changeNameGroup"
-        :studentsList="studentsList">
+        :studentsList="studentsList"
+        v-on:update-Child-Data="updateChildData">
         </student-wrapper-list>
       </div>
       <div id="right">
@@ -46,13 +47,13 @@ export default {
   },
 
   created() {
-    // console.log('Created=', this.groups);
     store.on('data-updated', this.updateData); // equals to  groups => this.updateData(groups)
   },
 
   methods: {
     updateData(groups) {
       console.log('updated');
+      console.log(this.groups);
       Object.values(groups).forEach(group => {
         this.countStudent.push(Object.keys(group).length);
       });
@@ -60,7 +61,10 @@ export default {
     },
     setSelectedGroup(group) {
       this.selectedGroup = group;
-      this.studentsList = store.getChildData(group);
+      this.studentsList = store.getChildsData(group);
+    },
+    updateChildData(group) {
+      this.studentsList = store.getChildsData(group);
     },
     changeNameGroup(el) {
       store.changeNameGroupsOnServer(el);

@@ -2,7 +2,7 @@
   <div id="main">
     <div class="middle">
       <student-list-toolbar :show="selected" v-on:changed-find="changeMove"></student-list-toolbar>
-      <student-list :list="studentsList"></student-list>
+      <student-list :list="studentsList" :nameGroup = "selected" v-on:update-Child-Data="updateChilddata"></student-list>
      </div>
   </div>
 </template>
@@ -17,11 +17,14 @@ export default {
     StudentListToolbar,
   },
 
-  props: ['groups', 'selected', 'studentsList'],
+  props: ['groups', 'selected', 'studentsList', 'updateChildData'],
 
   methods: {
     changeMove(el) {
       this.$emit('change-processed', el);
+    },
+    updateChilddata(data) {
+      this.$emit('update-Child-Data', data);
     },
   },
 };
