@@ -23,22 +23,30 @@
     "prettier": "^1.7.4",
     "vue-hot-reload-api": "^2.2.0",
     "vue-html-loader": "^1.2.4",
+    "vue-language-server": "^0.0.23",
     "vue-loader": "^13.3.0",
     "vue-style-loader": "^3.0.3",
+    "vue-svg-loader": "^0.3.0",
     "vue-template-compiler": "^2.5.2",
     "webpack": "^3.8.1",
     "webpack-dev-server": "^2.9.3"
   },
   "eslintConfig": {
     "root": true,
-    "extends": ["airbnb-base", "prettier"],
+    "extends": [
+      "airbnb-base",
+      "prettier"
+    ],
     "env": {
       "node": true
     },
     "settings": {
       "import/resolver": {
         "node": {
-          "extensions": [".js", ".vue"]
+          "extensions": [
+            ".js",
+            ".vue"
+          ]
         }
       }
     }

@@ -2,13 +2,19 @@
   <div id="main-students">
     <div class="wrapper-students overScroll">
       <div class="wrapper-initials">
-        <div v-for="(student,key,index) in list"  :key="key" class="student-list-inner" @click="ChildSelected(key)":class="{selected: selectedChild === key}">
+        <div v-for="(student,key,index) in list"  :key="key" class="student-list-inner" @click="childSelected(key)":class="{selected: selectedChild === key}">
           <li class="student-info-wrapper">
             <div class="student-info">
               <span>{{index+1}}</span>
-
-              <span v-for ="info in student" :key="info.name">
-              {{info}}
+              <span v-if="list.data">{{list.data}}</span>
+              <span>
+              {{student.surname}}
+              </span>
+              <span>
+              {{student.name}}
+              </span>
+              <span>
+              {{student.patronymic}}
               </span>
             </div>
           </li>
@@ -42,8 +48,9 @@ export default {
     updateChild(data) {
       this.$emit('update-Child-Data', data);
     },
-    ChildSelected(key) {
+    childSelected(key) {
       this.selectedChild = key;
+      this.$emit('get-info-student',key);
     },
   },
 };

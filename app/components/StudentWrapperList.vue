@@ -2,7 +2,10 @@
   <div id="main">
     <div class="middle">
       <student-list-toolbar :show="selected" v-on:changed-find="changeMove"></student-list-toolbar>
-      <student-list :list="studentsList" :nameGroup = "selected" v-on:update-Child-Data="updateChilddata"></student-list>
+      <student-list :list="studentsList" :nameGroup = "selected" 
+      v-on:update-Child-Data="updateChilddata"
+      v-on:get-info-student="getInfoStudent"
+      ></student-list>
      </div>
   </div>
 </template>
@@ -26,6 +29,9 @@ export default {
     updateChilddata(data) {
       this.$emit('update-Child-Data', data);
     },
+    getInfoStudent(key) {
+      this.$emit('get-info-student',key);
+    }
   },
 };
 </script>

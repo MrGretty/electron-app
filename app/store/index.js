@@ -80,12 +80,18 @@ store.getChildsData = groupName => {
   });
   return childData;
 };
-
+store.getChildData = (groupName, key) => {
+  let childData = {};
+  groupRef
+    .child(groupName)
+    .child(key)
+    .on('value', snapshot => {
+      childData = snapshot.val();
+    });
+  return childData;
+};
 store.max = () =>
   myWindow.isMaximized() ? myWindow.unmaximize() : myWindow.maximize();
 store.min = () => myWindow.minimize();
-store.exit = () => {
-  myWindow.close();
-};
-
+store.exit = () => myWindow.close();
 export default store;

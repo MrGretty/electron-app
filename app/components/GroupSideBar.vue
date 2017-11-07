@@ -3,7 +3,7 @@
     <div class="sidebar-header">
         <span>Mydiary | MrGretty </span>
     </div>
-    <div class="sidebar-myDay"  @click="setMyDay()" :class="{selected: selectedGroup === 'myDay'}">
+    <div class="sidebar-myDay">
         <div class="sun">
           <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
             viewBox="0 0 60 60" style="enable-background:new 0 0 60 60;" xml:space="preserve">
@@ -84,7 +84,7 @@ import GroupModal from './GroupModal.vue';
 export default {
   data: () => {
     return {
-      selectedGroup: 'myDay',
+      selectedGroup: '',
       opened: false,
     };
   },
@@ -94,13 +94,11 @@ export default {
 
   props: ['groups', 'countStudent'],
 
+
   methods: {
     groupSelected(group) {
       this.selectedGroup = group;
       this.$emit('group-selected', group);
-    },
-    setMyDay() {
-      this.selectedGroup = 'myDay';
     },
   },
 };
