@@ -71,7 +71,6 @@ export default {
       this.studentsList = store.getChildsData(group);
     },
     setSelectedStudent(key){
-      debugger;
       this.selectedStudent = store.getChildData(this.selectedGroup,key);
     },
     updateChildData(group) {

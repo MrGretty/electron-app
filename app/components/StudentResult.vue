@@ -1,6 +1,6 @@
 <template>
-  <div id="result-student-info">
-    <div class="information-about-student">
+  <div id="result-student-info" class="overScroll">
+    <div class="information-about-student" v-if="selectedStudent !== ''">
       <div class="firsModule">
         <span>Laborotory works - {{selectedStudent.lworksFirstModule}}</span>
         <span>Attendens - {{selectedStudent.attendanceFirstModule}}</span>
@@ -17,41 +17,18 @@
       </div>
       <div class="wrapper-results">
         <div class="results">
-          <span>{{firstModule}}</span>
-          <span>{{secondModule}}</span>
-          <span>{{total}}</span>
+          <span>First module result - {{selectedStudent.firstModule}}</span>
+          <span>Second module result -{{selectedStudent.secondModule}}</span>
+          <span>total - {{selectedStudent.total}}</span>
         </div>
       </div>
     </div>
+    <div class="information-about-student" v-else>No Data</div>
   </div>
 </template>
 
 <script>
 export default {
-  data:()=>{
-    return {
-      firstModule:'',
-      secondModule:'',
-      total:'',
-    }
-  },
   props:['selectedStudent'],
-  computed:{
-    firstModuleResults:function() {
-      this.firstModule =
-        this.selectedStudent.lworksFirstModule +
-        this.selectedStudent.attendanceFirstModule +
-        this.selectedStudent.controlFirstTest;
-    },
-    firstModuleResults:function() {
-      this.secondModule =
-        this.selectedStudent.lworksSecondModule +
-        this.selectedStudent.attendanceSecondModule +
-        this.selectedStudent.controlSecondTest;
-    },
-    totalResult:function () {
-      this.total = (firstModuleResults + secondModuleResults) / 2;
-    },
-  },
 };
 </script>

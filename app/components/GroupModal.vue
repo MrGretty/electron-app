@@ -39,9 +39,6 @@
                       </svg>
                   </div>
                 </form>
-                 <!-- <ul class="errors">
-                     <li v-show="!isValid" >Name cannot be empty.</li>
-                 </ul> -->
             </div>
           </div>
         </div>

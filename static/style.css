@@ -630,12 +630,6 @@ html[dir='rtl'] .tasksToolbar {
   background: #fff;
 }
 
-#right {
-  /* background has been taken from <a href="https://ru.freepik.com/free-vector/_851248.htm">Разработано через Freepik</a> */
-  background-image: url('./assets/textura.jpg');
-  opacity: 0.3;
-}
-
 #middle {
   display: flex;
   flex: 0.4;
@@ -647,6 +641,9 @@ html[dir='rtl'] .tasksToolbar {
   right: 15px;
   position: absolute;
   top: 10px;
+}
+#result-student-info {
+  overflow: auto;
 }
 
 .modal-body input[type='text'] {
@@ -893,7 +890,7 @@ html[dir='rtl'] .tasksToolbar {
   display: flex;
   align-items: center;
   box-shadow: 0 1px 3px rgb(1, 106, 168);
-  justify-content: space-between;
+  justify-content: center;
 }
 .information-about-student {
   display: flex;
