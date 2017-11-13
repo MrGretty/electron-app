@@ -3,51 +3,31 @@
     <div class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container">
-            <div class="modal-header">
-                <span>Add a new group</span>
-                  <div class="default-modal-close" @click="$emit('close')">
-                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                          viewBox="0 0 507.2 507.2" style="enable-background:new 0 0 507.2 507.2;" xml:space="preserve">
-                        <circle style="fill:#016aa8;" cx="253.6" cy="253.6" r="253.6"/>
-                        <path style="fill:##074b73;" d="M147.2,368L284,504.8c115.2-13.6,206.4-104,220.8-219.2L367.2,148L147.2,368z"/>
-                        <path style="fill:#FFFFFF;" d="M373.6,309.6c11.2,11.2,11.2,30.4,0,41.6l-22.4,22.4c-11.2,11.2-30.4,11.2-41.6,0l-176-176
-                          c-11.2-11.2-11.2-30.4,0-41.6l23.2-23.2c11.2-11.2,30.4-11.2,41.6,0L373.6,309.6z"/>
-                        <path style="fill:#D6D6D6;" d="M280.8,216L216,280.8l93.6,92.8c11.2,11.2,30.4,11.2,41.6,0l23.2-23.2c11.2-11.2,11.2-30.4,0-41.6
-                          L280.8,216z"/>
-                        <path style="fill:#FFFFFF;" d="M309.6,133.6c11.2-11.2,30.4-11.2,41.6,0l23.2,23.2c11.2,11.2,11.2,30.4,0,41.6L197.6,373.6
-                          c-11.2,11.2-30.4,11.2-41.6,0l-22.4-22.4c-11.2-11.2-11.2-30.4,0-41.6L309.6,133.6z"/>
-                        </svg>
-                  </div>
+          <div class="modal-header">
+            <span>Add a new group</span>
+            <div class="default-modal-close" @click="$emit('close')">
+              <close />
             </div>
-            <div class="modal-body">
-                <form id="form">
-                  <input type="text" v-model="groupName" placeholder="enter the group name...">
-                  <div class="submit" @click="addGroup">
-                      <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                        width="42px" height="42px"    viewBox="0 0 438.536 438.536" style="enable-background:new 0 0 438.536 438.536; fill: #308e09"
-                        xml:space="preserve">
-                          <g>
-                            <path d="M414.41,24.123C398.333,8.042,378.963,0,356.315,0H82.228C59.58,0,40.21,8.042,24.126,24.123
-                              C8.045,40.207,0.003,59.576,0.003,82.225v274.084c0,22.647,8.042,42.018,24.123,58.102c16.084,16.084,35.454,24.126,58.102,24.126
-                              h274.084c22.648,0,42.018-8.042,58.095-24.126c16.084-16.084,24.126-35.454,24.126-58.102V82.225
-                              C438.532,59.576,430.49,40.204,414.41,24.123z M370.88,159.024l-175.307,175.3c-3.615,3.614-7.898,5.428-12.85,5.428
-                              c-4.95,0-9.233-1.807-12.85-5.421L67.663,232.118c-3.616-3.62-5.424-7.898-5.424-12.848c0-4.949,1.809-9.233,5.424-12.847
-                              l29.124-29.124c3.617-3.616,7.895-5.424,12.847-5.424c4.952,0,9.235,1.809,12.851,5.424l60.242,60.24l133.334-133.333
-                              c3.606-3.617,7.898-5.424,12.847-5.424c4.945,0,9.227,1.807,12.847,5.424l29.126,29.125c3.61,3.615,5.421,7.898,5.421,12.847
-                              S374.49,155.411,370.88,159.024z"/>
-                          </g>
-                      </svg>
-                  </div>
-                </form>
-            </div>
+          </div>
+          <div class="modal-body">
+            <form id="form">
+              <input type="text" v-model="groupName" placeholder="enter the group name...">
+              <div class="submit" @click="addGroup">
+                <done />
+              </div>
+            </form>
           </div>
         </div>
       </div>
-    </transition>
+    </div>
+  </transition>
 </template>
 
 
 <script>
+import close from './assetsSvg/close.svg';
+import done from './assetsSvg/done.svg';
+
 import store from '../store';
 export default {
   data: () => {
@@ -55,7 +35,18 @@ export default {
       groupName: '',
     };
   },
-  props: ['opened'],
+
+  props: {
+    opened: {
+      type: Boolean,
+      default: false,
+    },
+  },
+
+  components: {
+    close,
+    done,
+  },
   computed: {
     isValid: function() {
       return !!this.groupName.trim();
@@ -67,6 +58,8 @@ export default {
         store.addGroup(this.groupName);
         this.groupName = '';
         this.$emit('close');
+      } else {
+        this.$root.$emit('error-msg', "the group's name  can not be empty");
       }
     },
   },

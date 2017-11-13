@@ -22,7 +22,7 @@ export default {
       opened: false,
     };
   },
-  components:{
+  components: {
     ComputerError,
   },
   created() {

@@ -8,13 +8,13 @@
 
 
 <script>
-import Search from "./Search.vue";
-import StudentResult from "./StudentResult.vue";
+import Search from './Search.vue';
+import StudentResult from './StudentResult.vue';
 export default {
-  components:{
+  components: {
     Search,
-    StudentResult
+    StudentResult,
   },
-  props:['selectedStudent']
+  props: ['selectedStudent'],
 };
 </script>

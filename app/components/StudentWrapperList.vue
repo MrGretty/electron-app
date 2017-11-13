@@ -1,11 +1,12 @@
 <template>
   <div id="main">
     <div class="middle">
-      <student-list-toolbar :show="selected" v-on:changed-find="changeMove"></student-list-toolbar>
-      <student-list :list="studentsList" :nameGroup = "selected" 
-      v-on:update-Child-Data="updateChilddata"
-      v-on:get-info-student="getInfoStudent"
-      ></student-list>
+      <student-list-toolbar :nameGroup="selected" @changeNameGroup="changeNameGroup" />
+      <student-list 
+        :list = "studentsList" 
+        :nameGroup = "selected" 
+        @update-child-data = "updateChilddata"
+        @get-info-student = "getInfoStudent" />
      </div>
   </div>
 </template>
@@ -20,18 +21,27 @@ export default {
     StudentListToolbar,
   },
 
-  props: ['groups', 'selected', 'studentsList', 'updateChildData'],
+  props: {
+    selected: {
+      type: String,
+      required: true,
+    },
+    studentsList: {
+      type: Object,
+      required: true,
+    },
+  },
 
   methods: {
-    changeMove(el) {
-      this.$emit('change-processed', el);
+    changeNameGroup(el) {
+      this.$emit('change-name-group', el);
     },
     updateChilddata(data) {
-      this.$emit('update-Child-Data', data);
+      this.$emit('update-child-data', data);
     },
     getInfoStudent(key) {
-      this.$emit('get-info-student',key);
-    }
+      this.$emit('get-info-student', key);
+    },
   },
 };
 </script>

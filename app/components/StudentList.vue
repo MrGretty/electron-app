@@ -2,36 +2,29 @@
   <div id="main-students">
     <div class="wrapper-students overScroll">
       <div class="wrapper-initials">
-        <div v-for="(student,key,index) in list"  :key="key" class="student-list-inner" @click="childSelected(key)":class="{selected: selectedChild === key}">
-          <li class="student-info-wrapper">
-            <div class="student-info">
-              <span>{{index+1}}</span>
-              <span v-if="list.data">{{list.data}}</span>
-              <span>
-              {{student.surname}}
-              </span>
-              <span>
-              {{student.name}}
-              </span>
-              <span>
-              {{student.patronymic}}
-              </span>
-            </div>
-          </li>
+        <div class="student-list-inner" v-for="(student,key,index) in list " 
+          :key="key" 
+          :class="{selected: selectedChild === key}" 
+          @click="childSelected(key)">
+          <student :student="student" :list="list" :index="index" />
         </div>
         <div class="studentList-addStudent">
-              <button @click = "opened = true">
-                <span>+</span>
-              </button>
-          </div>
+          <button @click="opened = true">
+            <span>+</span>
+          </button>
+        </div>
       </div>
     </div>
-       <student-modal :nameGroup = "nameGroup" v-if="opened" @close="opened = false" v-on:update-Child-Data="updateChild"></student-modal>
+    <student-modal v-if="opened" 
+      :nameGroup="nameGroup" 
+      @close="opened = false" 
+      @update-child-data="updateChild" />
   </div>
 </template>
 
 <script>
 import StudentModal from './StudentModal.vue';
+import Student from './Student.vue';
 
 export default {
   data: () => {
@@ -42,15 +35,25 @@ export default {
   },
   components: {
     StudentModal,
+    Student,
   },
-  props: ['list', 'nameGroup', 'updateChildData'],
+  props: {
+    list: {
+      type: Object,
+      required: true,
+    },
+    nameGroup: {
+      type: String,
+      required: true,
+    },
+  },
   methods: {
     updateChild(data) {
-      this.$emit('update-Child-Data', data);
+      this.$emit('update-child-data', data);
     },
     childSelected(key) {
       this.selectedChild = key;
-      this.$emit('get-info-student',key);
+      this.$emit('get-info-student', key);
     },
   },
 };

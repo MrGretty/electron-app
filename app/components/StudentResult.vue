@@ -29,6 +29,6 @@
 
 <script>
 export default {
-  props:['selectedStudent'],
+  props: ['selectedStudent'],
 };
 </script>

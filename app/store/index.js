@@ -64,7 +64,7 @@ store.collectLocalGroupData = data => {
   localData.push(data);
 };
 
-store.changeNameGroupsOnServer = newData => {
+store.changeNameGroup = newData => {
   let cloneData = {};
   groupRef.child(...Object.keys(newData)).on('value', snapshot => {
     cloneData = snapshot.val();
@@ -94,4 +94,5 @@ store.max = () =>
   myWindow.isMaximized() ? myWindow.unmaximize() : myWindow.maximize();
 store.min = () => myWindow.minimize();
 store.exit = () => myWindow.close();
+
 export default store;

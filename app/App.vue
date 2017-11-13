@@ -1,30 +1,27 @@
 <template>
   <div id="app">
     <header-app 
-    v-on:close="exit" 
-    v-on:max="maxSize" 
-    v-on:min="minSize"
-    >
-    </header-app>
+      @close="exit" 
+      @max="maxSize" 
+      @min="minSize" />
     <div id="left">
-      <group-side-bar :groups="groups" :countStudent="countStudent"
-                v-on:group-selected="setSelectedGroup"
-        ></group-side-bar>
-      </div>
-      <div id="middle">
-        <student-wrapper-list :selected="selectedGroup" :studentsList="studentsList"
-        v-on:change-processed="changeNameGroup"
-        v-on:update-Child-Data="updateChildData"
-        v-on:get-info-student="setSelectedStudent"
-        >
-        </student-wrapper-list>
-      </div>
-      <div id="right">
-          <student-wrapper-result :selectedStudent="selectedStudent">
-
-          </student-wrapper-result>
-        </div>
-        <errors></errors>
+      <group-side-bar 
+        :groups="groups" 
+        :countStudent="countStudent" 
+        @group-selected="setSelectedGroup" />
+    </div>
+    <div id="middle">
+      <student-wrapper-list 
+        :selected="selectedGroup" 
+        :studentsList="studentsList" 
+        @change-name-group="changeNameGroup" 
+        @update-child-data="updateChildData" 
+        @get-info-student="setSelectedStudent"/>
+    </div>
+    <div id="right">
+      <student-wrapper-result :selectedStudent="selectedStudent"/>
+    </div>
+    <errors></errors>
   </div>
 </template>
 
@@ -49,9 +46,9 @@ export default {
       groups: {},
       selectedGroup: '',
       changedNameGroup: '',
-      studentsList: '',
+      studentsList: {},
       countStudent: [],
-      selectedStudent:''
+      selectedStudent: '',
     };
   },
 
@@ -61,7 +58,7 @@ export default {
 
   methods: {
     updateData(groups) {
-      Object.values(groups).forEach((group,index,groups) => {
+      Object.values(groups).forEach((group, index, groups) => {
         this.countStudent[index] = Object.keys(group).length;
       });
       this.groups = groups;
@@ -70,14 +67,14 @@ export default {
       this.selectedGroup = group;
       this.studentsList = store.getChildsData(group);
     },
-    setSelectedStudent(key){
-      this.selectedStudent = store.getChildData(this.selectedGroup,key);
+    setSelectedStudent(key) {
+      this.selectedStudent = store.getChildData(this.selectedGroup, key);
     },
     updateChildData(group) {
       this.studentsList = store.getChildsData(group);
     },
     changeNameGroup(el) {
-      store.changeNameGroupsOnServer(el);
+      store.changeNameGroup(el);
       this.setSelectedGroup(...Object.values(el));
     },
     exit() {
