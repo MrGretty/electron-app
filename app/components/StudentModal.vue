@@ -107,13 +107,23 @@ export default {
       this.opened = false;
     });
   },
-
+  computed: {
+    isValid: function() {
+      return (
+        !!this.name.trim() && !!this.surname.trim() && !!this.patronymic.trim()
+      );
+    },
+  },
   methods: {
     addStudentToGroup() {
-      this.calculateResult();
-      store.addStudent(this.nameGroup, this.$data);
-      this.$emit('update-child-data', this.nameGroup);
-      this.$emit('close');
+      if (this.isValid) {
+        this.calculateResult();
+        store.addStudent(this.nameGroup, this.$data);
+        this.$emit('update-child-data', this.nameGroup);
+        this.$emit('close');
+      } else {
+        this.$root.$emit('error-msg', 'all fields must be filled');
+      }
     },
     addAdditionalInfo() {
       if (this.chooseAdditionalInfo !== '') {

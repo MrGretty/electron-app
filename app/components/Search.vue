@@ -11,5 +11,10 @@ export default {
       query: '',
     };
   },
+  watch: {
+    query: function(val, oldVal) {
+      this.$root.$emit('search', val);
+    },
+  },
 };
 </script>

@@ -29,6 +29,11 @@
 
 <script>
 export default {
-  props: ['selectedStudent'],
+  props: {
+    selectedStudent: {
+      type: Object,
+      required: true,
+    },
+  },
 };
 </script>

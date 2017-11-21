@@ -2,11 +2,11 @@
   <div id="main-students">
     <div class="wrapper-students overScroll">
       <div class="wrapper-initials">
-        <div class="student-list-inner" v-for="(student,key,index) in list " 
+        <div class="student-list-inner" v-for="(student,key,index) in filterStudent|| list " 
           :key="key" 
           :class="{selected: selectedChild === key}" 
           @click="childSelected(key)">
-          <student :student="student" :list="list" :index="index" />
+          <student :student="student" :list="filterStudent || list " :index="index" />
         </div>
         <div class="studentList-addStudent">
           <button @click="opened = true">
@@ -25,12 +25,14 @@
 <script>
 import StudentModal from './StudentModal.vue';
 import Student from './Student.vue';
+import filter from '../filter';
 
 export default {
   data: () => {
     return {
       opened: false,
       selectedChild: '',
+      search: '',
     };
   },
   components: {
@@ -46,6 +48,16 @@ export default {
       type: String,
       required: true,
     },
+  },
+  computed: {
+    filterStudent: function() {
+      if (!!this.search.trim()) return filter(this.list, this.search);
+    },
+  },
+  created() {
+    this.$root.$on('search', data => {
+      this.search = data;
+    });
   },
   methods: {
     updateChild(data) {
