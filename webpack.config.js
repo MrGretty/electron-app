@@ -12,7 +12,7 @@ module.exports = {
       vue$: 'vue/dist/vue.common.js',
     },
   },
-  plugins: [new webpack.ExternalsPlugin('commonjs', ['electron'])],
+
   module: {
     rules: [
       {
@@ -31,11 +31,19 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['env'],
-            plugins: ['transform-runtime'],
+            presets: [['env', {
+              targets: {
+                browsers: ['last 2 versions', 'ie>=11']
+              }
+            }]],
           },
+
         },
       },
     ],
   },
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.ExternalsPlugin('commonjs', ['electron']),
+  ],
 };
